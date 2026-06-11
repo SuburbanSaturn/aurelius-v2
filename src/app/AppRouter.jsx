@@ -8,7 +8,7 @@ import EchoesPage from "../pages/EchoesPage";
 import ReflectionPostPage from "../pages/ReflectionPostPage";
 import WitnessCollectivePage from "../pages/WitnessCollectivePage";
 import ScripturePage from "../pages/ScripturePage";
-
+import AtlanteGuide from "../components/AtlanteGuide";
 
 export default function AppRouter() {
   return (
@@ -23,6 +23,7 @@ export default function AppRouter() {
         <Route path="/witness-the-collective" element={<WitnessCollectivePage />} />
         <Route path="/scripture" element={<ScripturePage />} />
       </Routes>
+      <AtlanteGuide />
     </BrowserRouter>
   );
 }
