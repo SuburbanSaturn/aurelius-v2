@@ -169,6 +169,20 @@ export default function PostSubmissionPage() {
           box-shadow: 0 0 36px rgba(155, 18, 18, 0.34);
         }
 
+        .submission-feedback-link {
+          border-color: rgba(255, 160, 140, 0.32);
+          background: rgba(105, 18, 18, 0.24);
+          color: rgba(255, 235, 230, 0.82);
+        }
+
+        .submission-feedback-note {
+          margin: 28px auto 0;
+          max-width: 480px;
+          color: rgba(255, 220, 220, 0.34);
+          font-size: 0.82rem;
+          line-height: 1.6;
+        }
+
         .submission-footnote {
           margin-top: 54px;
           color: rgba(255, 220, 220, 0.26);
@@ -249,7 +263,14 @@ export default function PostSubmissionPage() {
           <Link className="submission-link" to="/">
             Offer another reflection
           </Link>
+          <Link className="submission-link submission-feedback-link" to="/feedback">
+            Help shape Aurelius
+          </Link>
         </nav>
+
+        <p className="submission-feedback-note">
+          Beta feedback does not enter the Collective. It helps improve the vessel.
+        </p>
 
         <p className="submission-footnote">{copy.footnote}</p>
       </section>

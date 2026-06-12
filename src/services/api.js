@@ -1,6 +1,25 @@
 const API_BASE = "https://vw5xfmt0ua.execute-api.us-west-2.amazonaws.com";
 
 
+export async function submitFeedback(feedbackData) {
+  const response = await fetch(`${API_BASE}/feedback`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(feedbackData),
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(data.error || "Failed to submit feedback");
+  }
+
+  return data;
+}
+
+
 export const submitReflection = async (payload) => {
   try {
     const res = await fetch(`${API_BASE}/submit`, {
