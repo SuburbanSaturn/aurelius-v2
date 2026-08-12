@@ -1,7 +1,13 @@
 import AppRouter from "./app/AppRouter";
+import AureliusAtmosphere from "./components/AureliusAtmosphere";
 
 function App() {
-  return <AppRouter />;
+  return (
+    <>
+      <AureliusAtmosphere />
+      <AppRouter />
+    </>
+  );
 }
 
 export default App;

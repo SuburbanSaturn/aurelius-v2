@@ -19,24 +19,30 @@ const guideSteps = [
   },
   {
     eyebrow: "Atlante Guide · 03",
+    title: "No hastey pastey.",
+    body:
+      "Aurelius asks that reflections be composed here, in the moment, rather than pasted in from elsewhere. The reflection space will gently resist external text. This is intentional — it keeps the Collective shaped by presence rather than preparation.",
+  },
+  {
+    eyebrow: "Atlante Guide · 04",
     title: "What happens when you contribute?",
     body:
       "Before a reflection enters the Collective, Aurelius removes identifying details where possible. Some entries may be hidden if they are unsafe, too sensitive, or not reflective enough for the public commons.",
   },
   {
-    eyebrow: "Atlante Guide · 04",
+    eyebrow: "Atlante Guide · 05",
     title: "What is the Collective?",
     body:
       "The Collective is made from public-safe reflections. It is not a profile, feed, or popularity system. It is a shared field of anonymous human thought.",
   },
   {
-    eyebrow: "Atlante Guide · 05",
+    eyebrow: "Atlante Guide · 06",
     title: "How to read Echoes, Patterns, Inquiry, and Scripture",
     body:
       "These outputs are not predictions, prophecies, or absolute truths. They are orientation tools: ways of seeing what may be emerging from the reflections people have offered.",
   },
   {
-    eyebrow: "Atlante Guide · 06",
+    eyebrow: "Atlante Guide · 07",
     title: "This is still beta",
     body:
       "Aurelius is still forming. Your participation helps shape the commons. The quality of the reflection shapes the quality of what the Collective can reveal.",

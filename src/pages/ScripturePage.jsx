@@ -1,15 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { generateScripture } from "../services/api";
-
-const ambientDots = [
-  { left: "12%", top: "22%", size: 4, delay: "0s" },
-  { left: "24%", top: "74%", size: 3, delay: "1.2s" },
-  { left: "38%", top: "36%", size: 5, delay: "2s" },
-  { left: "61%", top: "18%", size: 3, delay: "0.8s" },
-  { left: "77%", top: "58%", size: 4, delay: "1.7s" },
-  { left: "88%", top: "78%", size: 3, delay: "2.8s" },
-];
+import LivingTitle from "../components/LivingTitle";
+import CelestialField from "../components/CelestialField";
 
 const subtitles = [
   "Offer a theme and allow the Collective to form a longer passage.",
@@ -73,7 +66,7 @@ export default function ScripturePage() {
           background:
             radial-gradient(circle at 50% 30%, rgba(120, 15, 15, 0.24), transparent 30%),
             radial-gradient(circle at 50% 82%, rgba(80, 5, 5, 0.22), transparent 36%),
-            #020101;
+            rgba(2, 1, 1, 0.82);
           color: rgba(255, 245, 245, 0.86);
           padding: 64px 24px;
           position: relative;
@@ -81,21 +74,6 @@ export default function ScripturePage() {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-        }
-
-        .scripture-dot {
-          position: absolute;
-          width: var(--size);
-          height: var(--size);
-          left: var(--left);
-          top: var(--top);
-          border-radius: 999px;
-          background: rgba(255, 45, 45, 0.72);
-          box-shadow: 0 0 20px rgba(255, 45, 45, 0.85);
-          opacity: 0.48;
-          animation: scriptureFloat 8s ease-in-out infinite alternate;
-          animation-delay: var(--delay);
-          pointer-events: none;
         }
 
         .scripture-shell {
@@ -249,17 +227,6 @@ export default function ScripturePage() {
           box-shadow: 0 0 30px rgba(145, 18, 18, 0.22);
         }
 
-        @keyframes scriptureFloat {
-          from {
-            transform: translate3d(0, 0, 0) scale(0.82);
-            opacity: 0.26;
-          }
-          to {
-            transform: translate3d(18px, -28px, 0) scale(1.14);
-            opacity: 0.72;
-          }
-        }
-
         @keyframes fadeUp {
           from {
             opacity: 0;
@@ -305,23 +272,12 @@ export default function ScripturePage() {
         }
       `}</style>
 
-      {ambientDots.map((dot, index) => (
-        <span
-          key={index}
-          className="scripture-dot"
-          style={{
-            "--left": dot.left,
-            "--top": dot.top,
-            "--size": `${dot.size}px`,
-            "--delay": dot.delay,
-          }}
-        />
-      ))}
+      <CelestialField density="sparse" speed={0.6} />
 
       <section className="scripture-shell">
-        <p className="scripture-kicker">Composing</p>
-
-        <h1 className="scripture-title">Scripture from the Collective</h1>
+        <LivingTitle kicker="Composing" cycle={12} intensity="medium">
+          Scripture from the Collective
+        </LivingTitle>
 
         <div className="scripture-subtitle-wrap">
           <p key={subtitleIndex} className="scripture-subtitle">
@@ -368,12 +324,10 @@ export default function ScripturePage() {
       </section>
 
       <footer className="scripture-footer">
-        <Link to="/insights">Explore Patterns</Link>
-        <Link to="/echoes">Listen to Echoes</Link>
-        <Link to="/witness-the-collective">
-          Witness the Collective
-        </Link>
-        <Link to="/">Offer a Reflection</Link>
+        <Link className="aurelius-link" to="/insights">Explore Patterns</Link>
+        <Link className="aurelius-link" to="/echoes">Listen to Echoes</Link>
+        <Link className="aurelius-link" to="/witness-the-collective">Witness the Collective</Link>
+        <Link className="aurelius-link" to="/">Offer a Reflection</Link>
       </footer>
     </main>
   );

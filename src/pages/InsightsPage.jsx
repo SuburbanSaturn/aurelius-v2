@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getNarrative, askInquiry } from "../services/api";
-
-const ambientDots = [
-  { left: "13%", top: "24%", size: 4, delay: "0s" },
-  { left: "24%", top: "72%", size: 3, delay: "1.3s" },
-  { left: "39%", top: "38%", size: 5, delay: "2.1s" },
-  { left: "62%", top: "18%", size: 3, delay: "0.7s" },
-  { left: "76%", top: "62%", size: 4, delay: "1.8s" },
-  { left: "88%", top: "78%", size: 3, delay: "2.7s" },
-];
+import LivingTitle from "../components/LivingTitle";
+import CelestialField from "../components/CelestialField";
+import CelestialMarker from "../components/CelestialMarker";
 
 export default function InsightsPage() {
   const [mode, setMode] = useState("patterns");
+
+  // Tone-to-color mapping for the orb
+  const getToneColor = (tone) => {
+    const t = (tone || "").toLowerCase();
+    if (t.includes("hopeful") || t.includes("warm") || t.includes("gratitude")) return "rgba(210, 160, 60, 0.7)";
+    if (t.includes("uncertain") || t.includes("anxious") || t.includes("fear")) return "rgba(140, 170, 210, 0.7)";
+    if (t.includes("grief") || t.includes("heavy") || t.includes("pain")) return "rgba(200, 50, 40, 0.7)";
+    if (t.includes("calm") || t.includes("accept") || t.includes("peace")) return "rgba(100, 160, 140, 0.7)";
+    if (t.includes("mixed") || t.includes("bittersweet") || t.includes("complex")) return "rgba(170, 90, 140, 0.7)";
+    if (t.includes("reflect") || t.includes("introspec") || t.includes("contemplat")) return "rgba(140, 90, 160, 0.7)";
+    return "rgba(180, 100, 120, 0.6)"; // default muted rose
+  };
   const [question, setQuestion] = useState("");
   const [narrative, setNarrative] = useState("");
   const [patterns, setPatterns] = useState([]);
@@ -76,7 +82,7 @@ export default function InsightsPage() {
           background:
             radial-gradient(circle at 50% 34%, rgba(120, 15, 15, 0.24), transparent 30%),
             radial-gradient(circle at 50% 84%, rgba(80, 5, 5, 0.22), transparent 36%),
-            #020101;
+            rgba(2, 1, 1, 0.82);
           color: rgba(255, 245, 245, 0.86);
           padding: 64px 24px;
           position: relative;
@@ -84,21 +90,6 @@ export default function InsightsPage() {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-        }
-
-        .insights-dot {
-          position: absolute;
-          width: var(--size);
-          height: var(--size);
-          left: var(--left);
-          top: var(--top);
-          border-radius: 999px;
-          background: rgba(255, 45, 45, 0.72);
-          box-shadow: 0 0 20px rgba(255, 45, 45, 0.85);
-          opacity: 0.48;
-          animation: insightsFloat 8s ease-in-out infinite alternate;
-          animation-delay: var(--delay);
-          pointer-events: none;
         }
 
         .insights-shell {
@@ -173,7 +164,26 @@ export default function InsightsPage() {
         .pattern-card {
           width: min(100%, 620px);
           text-align: left;
-          transition: transform 220ms ease;
+          display: flex;
+          align-items: flex-start;
+          gap: 14px;
+          transition: transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .pattern-card .celestial-marker {
+          flex-shrink: 0;
+          margin-top: 4px;
+          transition: opacity 250ms ease, transform 250ms ease;
+        }
+
+        .pattern-card:hover .celestial-marker {
+          opacity: 0.85 !important;
+          transform: scale(1.15);
+        }
+
+        .pattern-card-content {
+          flex: 1;
+          min-width: 0;
         }
 
         .pattern-card:nth-child(3n + 1) {
@@ -240,6 +250,22 @@ export default function InsightsPage() {
           gap: 14px;
           color: rgba(255, 220, 220, 0.44);
           line-height: 1.7;
+        }
+
+        .tone-orb {
+          width: 10px;
+          height: 10px;
+          border-radius: 999px;
+          background: var(--tone-color, rgba(180, 100, 120, 0.6));
+          box-shadow: 0 0 8px var(--tone-color, rgba(180, 100, 120, 0.4)),
+                      0 0 16px var(--tone-color, rgba(180, 100, 120, 0.2));
+          animation: toneOrbPulse 3s ease-in-out infinite;
+          flex-shrink: 0;
+        }
+
+        @keyframes toneOrbPulse {
+          0%, 100% { transform: scale(1); opacity: 0.8; }
+          50% { transform: scale(1.2); opacity: 1; }
         }
 
         .narrative-body,
@@ -314,17 +340,6 @@ export default function InsightsPage() {
           box-shadow: 0 0 30px rgba(145, 18, 18, 0.22);
         }
 
-        @keyframes insightsFloat {
-          from {
-            transform: translate3d(0, 0, 0) scale(0.82);
-            opacity: 0.26;
-          }
-          to {
-            transform: translate3d(18px, -28px, 0) scale(1.14);
-            opacity: 0.72;
-          }
-        }
-
         @keyframes fadeUp {
           from {
             opacity: 0;
@@ -376,21 +391,12 @@ export default function InsightsPage() {
         }
       `}</style>
 
-      {ambientDots.map((dot, index) => (
-        <span
-          key={index}
-          className="insights-dot"
-          style={{
-            "--left": dot.left,
-            "--top": dot.top,
-            "--size": `${dot.size}px`,
-            "--delay": dot.delay,
-          }}
-        />
-      ))}
+      <CelestialField density="sparse" speed={0.6} />
 
       <section className="insights-shell">
-        <p className="insights-kicker">Viewing</p>
+        <LivingTitle kicker="Viewing" cycle={13} intensity="low">
+          Insights
+        </LivingTitle>
 
         <nav className="insights-mode-nav">
           <button
@@ -417,6 +423,7 @@ export default function InsightsPage() {
 
         {mode === "patterns" && (
           <section className="insights-section">
+            <CelestialMarker variant="constellation" size={28} intensity="medium" />
             <h2 className="insights-title">Emerging Patterns</h2>
 
             {narrativeLoading && <p className="insights-muted">Listening for patterns...</p>}
@@ -433,18 +440,20 @@ export default function InsightsPage() {
               <div className="patterns-list">
                 {patterns.map((pattern, index) => (
                   <article key={index} className="pattern-card">
-                    <h3 className="pattern-title">{pattern.title}</h3>
-                    <p className="pattern-description">{pattern.description}</p>
-
-                    {pattern.evidence?.length > 0 && (
-                      <div>
-                        {pattern.evidence.map((quote, quoteIndex) => (
-                          <blockquote key={quoteIndex} className="pattern-evidence">
-                            “{quote}”
-                          </blockquote>
-                        ))}
-                      </div>
-                    )}
+                    <CelestialMarker variant={["constellation","planet","vortex","ring","orb","star"][index % 6]} size={18} intensity="medium" />
+                    <div className="pattern-card-content">
+                      <h3 className="pattern-title">{pattern.title}</h3>
+                      <p className="pattern-description">{pattern.description}</p>
+                      {pattern.evidence?.length > 0 && (
+                        <div>
+                          {pattern.evidence.map((quote, quoteIndex) => (
+                            <blockquote key={quoteIndex} className="pattern-evidence">
+                              &ldquo;{quote}&rdquo;
+                            </blockquote>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </article>
                 ))}
               </div>
@@ -453,8 +462,9 @@ export default function InsightsPage() {
             {!narrativeLoading && !narrativeError && (dominantTone || humanInsight) && (
               <div className="insight-meta">
                 {dominantTone && (
-                  <p>
-                    <strong>Dominant tone:</strong> {dominantTone}
+                  <p style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <span className="tone-orb" style={{ "--tone-color": getToneColor(dominantTone) }} />
+                    <span><strong>Dominant tone:</strong> {dominantTone}</span>
                   </p>
                 )}
 
@@ -470,6 +480,7 @@ export default function InsightsPage() {
 
         {mode === "narrative" && (
           <section className="insights-section">
+            <CelestialMarker variant="orb" size={22} intensity="low" />
             <h2 className="insights-title">Narrative</h2>
 
             {narrativeLoading && <p className="insights-muted">Listening to the Collective...</p>}
@@ -486,6 +497,7 @@ export default function InsightsPage() {
 
         {mode === "inquiry" && (
           <section className="insights-section">
+            <CelestialMarker variant="vortex" size={22} intensity="low" />
             <h2 className="insights-title">Inquiry</h2>
             <p className="insights-muted">Ask a question of what has been shared within the Collective.</p>
 
@@ -515,10 +527,10 @@ export default function InsightsPage() {
       </section>
 
       <footer className="insights-footer">
-        <Link to="/witness-the-collective">Witness the Collective</Link>
-        <Link to="/echoes">Listen to Echoes</Link>
-        <Link to="/scripture">Compose Scripture</Link>
-        <Link to="/">Offer a Reflection</Link>
+        <Link className="aurelius-link" to="/witness-the-collective">Witness the Collective</Link>
+        <Link className="aurelius-link" to="/echoes">Listen to Echoes</Link>
+        <Link className="aurelius-link" to="/scripture">Compose Scripture</Link>
+        <Link className="aurelius-link" to="/">Offer a Reflection</Link>
       </footer>
     </main>
   );
