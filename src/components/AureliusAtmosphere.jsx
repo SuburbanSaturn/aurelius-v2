@@ -47,8 +47,8 @@ export default function AureliusAtmosphere({ src = "/media/aurelius-hero-4.mp4" 
           width: 100%;
           height: 100%;
           object-fit: cover;
-          opacity: 0.18;
-          filter: brightness(0.5) saturate(0.5) blur(0.5px);
+          opacity: 0.30;
+          filter: saturate(0.5) blur(0.5px);
           mix-blend-mode: screen;
         }
 
