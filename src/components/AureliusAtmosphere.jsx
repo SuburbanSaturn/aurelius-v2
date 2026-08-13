@@ -43,21 +43,32 @@ export default function AureliusAtmosphere({ src = "/media/aurelius-hero-4.mp4" 
 
         .aurelius-atmosphere-video {
           position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
+          inset: -2%;
+          width: 104%;
+          height: 104%;
           object-fit: cover;
-          opacity: 0.30;
-          filter: saturate(0.5) blur(0.5px);
+          opacity: 0.34;
+          filter: blur(3px) saturate(0.7) contrast(1.06) brightness(0.75);
           mix-blend-mode: screen;
+          transform: scale(1.02);
+        }
+
+        .aurelius-atmosphere-bloom {
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(ellipse at 40% 45%, rgba(160, 40, 30, 0.04), transparent 50%),
+            radial-gradient(ellipse at 65% 60%, rgba(180, 100, 40, 0.025), transparent 45%);
+          mix-blend-mode: screen;
+          pointer-events: none;
         }
 
         .aurelius-atmosphere-vignette {
           position: absolute;
           inset: 0;
           background:
-            radial-gradient(ellipse at center, transparent 30%, rgba(2, 1, 1, 0.7) 80%),
-            linear-gradient(180deg, rgba(2, 1, 1, 0.3) 0%, transparent 15%, transparent 85%, rgba(2, 1, 1, 0.4) 100%);
+            radial-gradient(ellipse at center, transparent 25%, rgba(2, 1, 1, 0.75) 78%),
+            linear-gradient(180deg, rgba(2, 1, 1, 0.35) 0%, transparent 12%, transparent 88%, rgba(2, 1, 1, 0.45) 100%);
           pointer-events: none;
         }
 
@@ -81,6 +92,7 @@ export default function AureliusAtmosphere({ src = "/media/aurelius-hero-4.mp4" 
         />
       )}
 
+      <div className="aurelius-atmosphere-bloom" />
       <div className="aurelius-atmosphere-vignette" />
     </div>
   );
