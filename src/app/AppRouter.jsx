@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import ReflectionPage from "../pages/ReflectionPage";
 import PostSubmissionPage from "../pages/PostSubmissionPage";
@@ -11,27 +11,20 @@ import ScripturePage from "../pages/ScripturePage";
 import FeedbackPage from "../pages/FeedbackPage";
 import EmbedReflectionPage from "../pages/EmbedReflectionPage";
 import AtlanteGuide from "../components/AtlanteGuide";
-import AureliusAtmosphere from "../components/AureliusAtmosphere";
 
 /**
- * Conditionally renders full-app chrome only on non-embed routes.
- * Embed routes get a minimal, focused experience.
+ * Conditionally renders AtlanteGuide only on non-embed routes.
+ * Preserves original position: after Routes.
  */
-function AppChrome() {
+function ConditionalAtlante() {
   const location = useLocation();
-  const isEmbed = location.pathname.startsWith("/embed");
-  if (isEmbed) return null;
-  return (
-    <>
-      <AureliusAtmosphere />
-      <AtlanteGuide />
-    </>
-  );
+  if (location.pathname.startsWith("/embed")) return null;
+  return <AtlanteGuide />;
 }
 
 export default function AppRouter() {
   return (
-    <BrowserRouter>
+    <>
       <Routes>
         <Route path="/" element={<ReflectionPage />} />
         <Route path="/submitted" element={<PostSubmissionPage />} />
@@ -44,7 +37,7 @@ export default function AppRouter() {
         <Route path="/feedback" element={<FeedbackPage />} />
         <Route path="/embed/reflect" element={<EmbedReflectionPage />} />
       </Routes>
-      <AppChrome />
-    </BrowserRouter>
+      <ConditionalAtlante />
+    </>
   );
 }
