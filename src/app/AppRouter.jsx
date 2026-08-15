@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import ReflectionPage from "../pages/ReflectionPage";
 import PostSubmissionPage from "../pages/PostSubmissionPage";
@@ -9,7 +9,25 @@ import ReflectionPostPage from "../pages/ReflectionPostPage";
 import WitnessCollectivePage from "../pages/WitnessCollectivePage";
 import ScripturePage from "../pages/ScripturePage";
 import FeedbackPage from "../pages/FeedbackPage";
+import EmbedReflectionPage from "../pages/EmbedReflectionPage";
 import AtlanteGuide from "../components/AtlanteGuide";
+import AureliusAtmosphere from "../components/AureliusAtmosphere";
+
+/**
+ * Conditionally renders full-app chrome only on non-embed routes.
+ * Embed routes get a minimal, focused experience.
+ */
+function AppChrome() {
+  const location = useLocation();
+  const isEmbed = location.pathname.startsWith("/embed");
+  if (isEmbed) return null;
+  return (
+    <>
+      <AureliusAtmosphere />
+      <AtlanteGuide />
+    </>
+  );
+}
 
 export default function AppRouter() {
   return (
@@ -24,8 +42,9 @@ export default function AppRouter() {
         <Route path="/witness-the-collective" element={<WitnessCollectivePage />} />
         <Route path="/scripture" element={<ScripturePage />} />
         <Route path="/feedback" element={<FeedbackPage />} />
+        <Route path="/embed/reflect" element={<EmbedReflectionPage />} />
       </Routes>
-      <AtlanteGuide />
+      <AppChrome />
     </BrowserRouter>
   );
 }
